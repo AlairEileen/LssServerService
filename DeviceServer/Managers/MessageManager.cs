@@ -169,14 +169,7 @@ namespace DeviceServer.Managers
             NotifyTask(message, ResponseStatus.请求失败);
             message.MStatus = MessageStatus.failed;
             message.UpDate();
-        }
-
-        public void ExecuteSetDefaultVoltageSuccess(DefaultVoltageSetMessage message)
-        {
-            NotifyTask(message, ResponseStatus.请求成功);
-            message.MStatus = MessageStatus.finish;
-            message.UpDate();
-        }
+        } 
 
         public void ExecuteLog(LogMessage message)
         {
@@ -190,6 +183,18 @@ namespace DeviceServer.Managers
             var client = new ClientModel().Collection().Find(x => x.ClientID.Equals(message.ClientID)).FirstOrDefault();
             message.BugInfo.Client = client;
             message.BugInfo.Collection().InsertOne(message.BugInfo);
+        }
+
+        public void ExecuteFinish(MessageModel message)
+        {
+           
+        }
+
+        public void Executing(MessageModel message)
+        {
+            NotifyTask(message, ResponseStatus.设备繁忙);
+            message.MStatus = MessageStatus.finish;
+            message.UpDate();
         }
     }
 

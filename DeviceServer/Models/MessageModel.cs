@@ -52,9 +52,15 @@ namespace DeviceServer.Models
                     case MessageType.SetDefaultChanceFinish:
                         ExecuteMessage<DefaultChanceSetMessage>(clientModel, bMsg.Item2, dataSize, bMsg.Item1, messageExecutor.ExecuteSetDefaultChanceFinish);
                         break;
-                    case MessageType.SetDefaultVoltagSuccess:
-                        ExecuteMessage<DefaultVoltageSetMessage>(clientModel, bMsg.Item2, dataSize, bMsg.Item1, messageExecutor.ExecuteSetDefaultVoltageSuccess);
+
+                    case MessageType.ExecuteFinish:
+                        ExecuteMessage<MessageModel>(clientModel, bMsg.Item2, dataSize, bMsg.Item1, messageExecutor.ExecuteFinish);
                         break;
+
+                    case MessageType.Executing:
+                        ExecuteMessage<MessageModel>(clientModel, bMsg.Item2, dataSize, bMsg.Item1, messageExecutor.Executing);
+                        break;
+
                     case MessageType.ReportLog:
                         ExecuteMessage<LogMessage>(clientModel, bMsg.Item2, dataSize, bMsg.Item1, messageExecutor.ExecuteLog);
                         break;
@@ -259,24 +265,6 @@ namespace DeviceServer.Models
     public class DefaultChanceSetMessage : MessageModel
     {
         public int Chance { get; set; }
-        /// <summary>
-        /// 获取当前实例的Json
-        /// </summary>
-        /// <returns></returns>
-        public override string GetCurrentJson()
-        {
-            return this.JsonWithLimit(new string[] {
-                "MessageID",
-                "Chance"
-            });
-        }
-    }
-
-    /// <summary>
-    /// 默认电压消息
-    /// </summary>
-    public class DefaultVoltageSetMessage : MessageModel
-    {
         public int Voltage { get; set; }
         /// <summary>
         /// 获取当前实例的Json
@@ -286,10 +274,13 @@ namespace DeviceServer.Models
         {
             return this.JsonWithLimit(new string[] {
                 "MessageID",
+                "Chance",
                 "Voltage"
             });
         }
     }
+
+   
 
     /// <summary>
     /// 出币消息类
@@ -300,10 +291,6 @@ namespace DeviceServer.Models
         /// 出币数量
         /// </summary>
         public int CoinCount { get; set; }
-        /// <summary>
-        /// 出币电压
-        /// </summary>
-        public int Voltage { get; set; }
 
         /// <summary>
         /// 获取当前实例的Json
@@ -380,6 +367,14 @@ namespace DeviceServer.Models
         /// </summary>
         OutCoinFinish = 2001,
         /// <summary>
+        /// 任务进行中
+        /// </summary>
+        Executing = 2002,
+        /// <summary>
+        /// 任务完成
+        /// </summary>
+        ExecuteFinish = 2003,
+        /// <summary>
         /// 执行失败
         /// </summary>
         ExecuteFailed = 4000,
@@ -398,15 +393,7 @@ namespace DeviceServer.Models
         /// <summary>
         /// 设置默认概率成功
         /// </summary>
-        SetDefaultChanceFinish = 9001,
-        /// <summary>
-        /// 设置默认电压
-        /// </summary>
-        SetDefaultVoltage = 9002,
-        /// <summary>
-        /// 设置默认电压成功
-        /// </summary>
-        SetDefaultVoltagSuccess = 9003
+        SetDefaultChanceFinish = 9001
     }
 
     /// <summary>
@@ -436,12 +423,6 @@ namespace DeviceServer.Models
         /// 成功设置默认概率
         /// </summary>
         /// <param name="message"></param>
-        void ExecuteSetDefaultVoltageSuccess(DefaultVoltageSetMessage message);
-
-        /// <summary>
-        /// 成功设置默认概率
-        /// </summary>
-        /// <param name="message"></param>
         void ExecuteLog(LogMessage message);
         /// <summary>
         /// 成功设置默认概率
@@ -454,5 +435,7 @@ namespace DeviceServer.Models
         /// </summary>
         /// <param name="message"></param>
         void ExecuteFailed(MessageModel message);
+        void ExecuteFinish(MessageModel obj);
+        void Executing(MessageModel obj);
     }
 }
