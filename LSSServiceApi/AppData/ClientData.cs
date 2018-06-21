@@ -19,9 +19,16 @@ namespace LSSServiceApi.AppData
 
         internal void ChangeAuthorize(string id, bool authorize)
         {
-            var client = collection.UpdateOne(x => x.ID.Equals(new ObjectId(id)),
+           collection.UpdateOne(x => x.ID.Equals(new ObjectId(id)),
                 Builders<ClientModel>.Update
                 .Set(x => x.Authorized, authorize));
+        }
+
+        internal void SetChanceAndVoltage(ObjectId objectId, int chance, int voltage)
+        {
+            collection.UpdateOne(x=>x.ID.Equals(objectId), Builders<ClientModel>.Update
+                .Set(x =>x.Chance, chance)
+                .Set(x=>x.Voltage,voltage));
         }
     }
 }

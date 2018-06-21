@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace DeviceServer.Models
 {
-    public class ClientModel:MongoDBExecutor<ClientModel>
+    public class ClientModel : MongoDBExecutor<ClientModel>
     {
         /// <summary>
         /// 客户端数据库保存ID
@@ -21,6 +21,8 @@ namespace DeviceServer.Models
         [BsonId]
         [JsonConverter(typeof(ObjectIdConverter))]
         public ObjectId ID { get; set; }
+
+
 
         /// <summary>
         /// 客户端Socket，不进行持久化
@@ -56,6 +58,17 @@ namespace DeviceServer.Models
         /// 客户端授权状态
         /// </summary>
         public bool Authorized { get; set; }
+
+        /// <summary>
+        /// 电压
+        /// </summary>
+        public int Voltage { get; set; } = 1;
+
+        /// <summary>
+        /// 概率
+        /// </summary>
+        public int Chance { get; set; } = 1;
+
 
         /// <summary>
         /// 客户端数据库集合

@@ -1,4 +1,5 @@
 ﻿using DeviceServer.Models;
+using MongoDB.Driver;
 using NTTools.Models;
 using System;
 using System.Collections.Generic;
@@ -64,6 +65,13 @@ namespace DeviceServer.Managers
                 if (connector == null || !connector.Client.Connected)
                 {
                     throw new WebExceptionModel { ExceptionParam = ResponseStatus.设备离线 };
+                }
+                if (messageModel.MType == MessageType.OutCoin)
+                {
+                    var c = ClientModel.collection.Find(x => x.ClientID.Equals(connector.Client.ClientID)).FirstOrDefault();
+                    var m = ((OutCoinMessageModel)messageModel);
+                    m.Voltage = c.Voltage;
+                    m.Chance = c.Chance;
                 }
                 connector.Send(messageModel.ToByteArray());
                 messageModel.MStatus = MessageStatus.Sent;

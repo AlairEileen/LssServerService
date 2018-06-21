@@ -49,21 +49,6 @@ namespace DeviceServer.Models
                     case MessageType.ExecuteFailed:
                         ExecuteMessage<MessageModel>(clientModel, bMsg.Item2, dataSize, bMsg.Item1, messageExecutor.ExecuteFailed);
                         break;
-                    case MessageType.SetDefaultChanceFinish:
-                        ExecuteMessage<DefaultChanceSetMessage>(clientModel, bMsg.Item2, dataSize, bMsg.Item1, messageExecutor.ExecuteSetDefaultChanceFinish);
-                        break;
-
-                    case MessageType.ExecuteFinish:
-                        ExecuteMessage<MessageModel>(clientModel, bMsg.Item2, dataSize, bMsg.Item1, messageExecutor.ExecuteFinish);
-                        break;
-
-                    case MessageType.Executing:
-                        ExecuteMessage<MessageModel>(clientModel, bMsg.Item2, dataSize, bMsg.Item1, messageExecutor.Executing);
-                        break;
-
-                    case MessageType.ReportLog:
-                        ExecuteMessage<LogMessage>(clientModel, bMsg.Item2, dataSize, bMsg.Item1, messageExecutor.ExecuteLog);
-                        break;
                     case MessageType.ReportBug:
                         ExecuteMessage<BugMessage>(clientModel, bMsg.Item2, dataSize, bMsg.Item1, messageExecutor.ExecuteBug);
                         break;
@@ -367,33 +352,13 @@ namespace DeviceServer.Models
         /// </summary>
         OutCoinFinish = 2001,
         /// <summary>
-        /// 任务进行中
-        /// </summary>
-        Executing = 2002,
-        /// <summary>
-        /// 任务完成
-        /// </summary>
-        ExecuteFinish = 2003,
-        /// <summary>
         /// 执行失败
         /// </summary>
         ExecuteFailed = 4000,
         /// <summary>
-        /// 上报日志
-        /// </summary>
-        ReportLog = 7000,
-        /// <summary>
         /// 上报故障
         /// </summary>
-        ReportBug = 7001,
-        /// <summary>
-        /// 设置默认概率
-        /// </summary>
-        SetDefaultChance = 9000,
-        /// <summary>
-        /// 设置默认概率成功
-        /// </summary>
-        SetDefaultChanceFinish = 9001
+        ReportBug = 7001
     }
 
     /// <summary>
@@ -412,20 +377,9 @@ namespace DeviceServer.Models
         /// </summary>
         /// <param name="message"></param>
         void ExecuteOutCoinFinish(MessageModel message);
-
+     
         /// <summary>
-        /// 成功设置默认概率
-        /// </summary>
-        /// <param name="message"></param>
-        void ExecuteSetDefaultChanceFinish(DefaultChanceSetMessage message);
-
-        /// <summary>
-        /// 成功设置默认概率
-        /// </summary>
-        /// <param name="message"></param>
-        void ExecuteLog(LogMessage message);
-        /// <summary>
-        /// 成功设置默认概率
+        /// 上报错误
         /// </summary>
         /// <param name="message"></param>
         void ExecuteBug(BugMessage message);
@@ -435,7 +389,5 @@ namespace DeviceServer.Models
         /// </summary>
         /// <param name="message"></param>
         void ExecuteFailed(MessageModel message);
-        void ExecuteFinish(MessageModel obj);
-        void Executing(MessageModel obj);
     }
 }

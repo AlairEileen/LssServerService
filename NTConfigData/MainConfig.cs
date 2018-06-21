@@ -6,7 +6,7 @@ namespace NTConfigData
 {
     public class MainConfig
     {
-        public const bool IsDev = false;
+        public const bool IsDev = true;
 
         public const string LineProj = "LssService";
         public const string DevProj = "Lss_Service";
@@ -20,8 +20,8 @@ namespace NTConfigData
         public const string CertsDir="certs/";
 
 
-        public const string MongoDBLineConn = "mongodb://localhost:27027";
-        //public const string MongoDBLineConn = "mongodb://47.94.208.29:27027";
+        //public const string MongoDBLineConn = "mongodb://localhost:27027";
+        public const string MongoDBLineConn = "mongodb://47.94.208.29:27027";
         public const string MongoDBLocalConn = "mongodb://47.94.208.29:27027";
         public const string MongoDBName= ProjName;
 

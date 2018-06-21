@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DeviceServer.Models;
 using LSSServiceApi.AppData;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using WebTools;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -14,7 +15,7 @@ namespace LSSServiceApi.Controllers
     [Route("api/[controller]")]
     public class ClientController : BaseController<ClientData, ClientModel>
     {
-      
+
 
         // GET: api/<controller>
         [HttpGet]
@@ -49,8 +50,21 @@ namespace LSSServiceApi.Controllers
 
         // POST api/<controller>
         [HttpPost]
-        public void Post([FromBody]string value)
+        public string PostChanceAndVoltage(string id,int chance,int voltage)
         {
+            try
+            {
+                if (string.IsNullOrEmpty(id))
+                {
+                    return JsonExtensionsApi.JsonOtherStatus(ResponseStatus.请求参数不正确);
+                }
+                thisData.SetChanceAndVoltage(new ObjectId(id), chance,voltage);
+                return JsonExtensionsApi.JsonSuccessStatus;
+            }
+            catch (Exception)
+            {
+                return JsonExtensionsApi.JsonErrorStatus;
+            }
         }
 
         // PUT api/<controller>/5

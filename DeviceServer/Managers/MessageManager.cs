@@ -149,17 +149,7 @@ namespace DeviceServer.Managers
             //}
         }
 
-        /// <summary>
-        /// 执行设置默认概率成功
-        /// </summary>
-        /// <param name="message"></param>
-        public void ExecuteSetDefaultChanceFinish(DefaultChanceSetMessage message)
-        {
-            NotifyTask(message, ResponseStatus.请求成功);
-            message.MStatus = MessageStatus.finish;
-            message.UpDate();
-        }
-
+       
         /// <summary>
         /// 执行失败
         /// </summary>
@@ -171,12 +161,7 @@ namespace DeviceServer.Managers
             message.UpDate();
         } 
 
-        public void ExecuteLog(LogMessage message)
-        {
-            var client = new ClientModel().Collection().Find(x => x.ClientID.Equals(message.ClientID)).FirstOrDefault();
-            message.LogInfo.Client = client;
-            message.LogInfo.Collection().InsertOne(message.LogInfo);
-        }
+      
 
         public void ExecuteBug(BugMessage message)
         {
@@ -185,17 +170,7 @@ namespace DeviceServer.Managers
             message.BugInfo.Collection().InsertOne(message.BugInfo);
         }
 
-        public void ExecuteFinish(MessageModel message)
-        {
-           
-        }
-
-        public void Executing(MessageModel message)
-        {
-            NotifyTask(message, ResponseStatus.设备繁忙);
-            message.MStatus = MessageStatus.finish;
-            message.UpDate();
-        }
+     
     }
 
     /// <summary>
