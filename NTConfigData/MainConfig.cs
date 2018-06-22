@@ -6,7 +6,7 @@ namespace NTConfigData
 {
     public class MainConfig
     {
-        public const bool IsDev = true;
+        public const bool IsDev = false;
 
         public const string LineProj = "LssService";
         public const string DevProj = "Lss_Service";
